@@ -31,11 +31,11 @@ public class Employee {
     private Date birthDate;
 
     @Column(name = "EDUCATION")
-    private Integer education;
+    private String education;
 
     @Column(name = "DEPT_NAME")
-    private Integer deptName;
+    private String deptName;
 
     @Column(name = "TITLE")
-    private Integer title;
+    private String title;
 }

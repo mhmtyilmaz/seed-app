@@ -1,6 +1,7 @@
-package com.seed.app.controller;
+package com.seed.app;
 
 import com.seed.app.operation.EmployeeOperation;
+import com.seed.app.util.EmployeeBuilder;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -30,7 +31,7 @@ public class EmployeeController {
     })
     public
     @ResponseBody
-    ResponseEntity<List> getAllStocks() {
+    ResponseEntity<List> getAllEmployee() {
         return new ResponseEntity<>(employeeOperation.getAllEmployee(), HttpStatus.OK);
     }
 }
