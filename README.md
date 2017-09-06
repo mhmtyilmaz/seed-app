@@ -14,13 +14,13 @@ The basic feature of it is, to add, update, view employees and their details so 
 
 ### Back-end
 To make back-end up and running, please run below commands,
-  * cd service/seed-app
+  * cd service
   * mvn install
   * java -jar target/seed-app-1.0-SNAPSHOT.jar
 
 
 ### Front-end
-  * cd ../../web  ` In order to go to UI folder `
+  * cd ../web  ` In order to go to UI folder `
   * npm install ` This is going to install needed dependencies `
   * http-server -o ` This will run a mock http-server `
 
