@@ -3,14 +3,18 @@ package com.seed.app.operation;
 import com.seed.app.dto.EmployeeDto;
 import com.seed.app.model.Employee;
 import com.seed.app.repository.EmployeeRepository;
+import com.seed.app.util.Constant;
 import com.seed.app.util.EmployeeBuilder;
+import com.seed.app.util.EmployeeException;
 import com.seed.app.util.TestConstant;
+import junit.extensions.TestSetup;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,13 +43,14 @@ public class EmployeeOperationTest {
                 .withEducation(TestConstant.EDUCATION)
                 .withDeptName(TestConstant.DEPT_NAME)
                 .withTitle(TestConstant.TITLE).buildEmployee();
+
     }
 
     @Test
     public void whenGettingAllEmployeeThenReturnList() {
         Mockito.when(employeeRepository.findAll()).thenReturn(Arrays.asList(employee));
-        List<Employee> employeeList = employeeOperation.getAllEmployee();
-        assertTrue(employeeList.stream().findFirst().get().equals(employee));
+        EmployeeDto returnEmployeeDto = employeeOperation.getAllEmployee();
+        assertTrue(returnEmployeeDto.getData().equals(Arrays.asList(employee)));
     }
 
     @Test
@@ -55,4 +60,25 @@ public class EmployeeOperationTest {
         assertTrue(employeeDto.getData().equals(employee));
     }
 
+    @Test
+    public void givenEmployeeObjectWhenUpdateEmployeeThenReturnDto() {
+        Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
+        EmployeeDto employeeDto = employeeOperation.updateEmployeeAllDetail(employee);
+        assertTrue(employeeDto.getData().equals(employee));
+    }
+
+    @Test
+    public void givenEmployeeIdWhenGettingEmployeeThenReturnDto() throws EmployeeException{
+        Mockito.when(employeeRepository.findOne(Mockito.anyInt())).thenReturn(employee);
+        Mockito.when(employeeRepository.save(Mockito.any(Employee.class))).thenReturn(employee);
+        EmployeeDto employeeDto = employeeOperation.getEmployee(TestConstant.ID);
+        assertTrue(employeeDto.getData().equals(employee));
+    }
+
+
+    @Test(expected = EmployeeException.class)
+    public void givenEmployeeIdWhenGettingEmployeeThenThrowException() throws EmployeeException{
+        Mockito.when(employeeRepository.findOne(Mockito.anyInt())).thenReturn(null);
+        employeeOperation.getEmployee(TestConstant.ID);
+    }
 }

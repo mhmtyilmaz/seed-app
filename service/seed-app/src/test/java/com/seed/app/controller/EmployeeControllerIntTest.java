@@ -25,6 +25,7 @@ import java.nio.charset.Charset;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -65,17 +66,18 @@ public class EmployeeControllerIntTest {
     public void shouldGetAllEmployee() {
         try {
             mockMvc.perform(get(TestConstant.API_PATH)).andExpect(status().isOk())
-                    .andExpect(jsonPath("$name",is(TestConstant.NAME)))
-                    .andExpect(jsonPath("$birthDate",is(TestConstant.BIRTH_DATE)))
-                    .andExpect(jsonPath("$education",is(TestConstant.EDUCATION)))
-                    .andExpect(jsonPath("$deptName",is(TestConstant.DEPT_NAME)))
-                    .andExpect(jsonPath("$title",is(TestConstant.TITLE)));
+                    .andExpect(jsonPath("$name", is(TestConstant.NAME)))
+                    .andExpect(jsonPath("$birthDate", is(TestConstant.BIRTH_DATE)))
+                    .andExpect(jsonPath("$education", is(TestConstant.EDUCATION)))
+                    .andExpect(jsonPath("$deptName", is(TestConstant.DEPT_NAME)))
+                    .andExpect(jsonPath("$title", is(TestConstant.TITLE)));
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
     }
+
     @Test
-    public void  shouldAddNewEmployee() {
+    public void shouldAddNewEmployee() {
         try {
             mockMvc.perform(put(TestConstant.API_PATH)
                     .contentType(getMediaTypeJSON())
@@ -85,6 +87,36 @@ public class EmployeeControllerIntTest {
             logger.error(e.getMessage());
         }
     }
+
+
+    @Test
+    public void shouldUpdateEmployee() {
+        try {
+            mockMvc.perform(post(TestConstant.API_PATH)
+                    .contentType(getMediaTypeJSON())
+                    .content(gson.toJson(employee)))
+                    .andExpect(status().isOk());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+
+    @Test
+    public void shouldGetEmployeeById() {
+        try {
+            mockMvc.perform(get(TestConstant.API_PATH + "/" + TestConstant.ID)).andExpect(status().isOk())
+                    .andExpect(jsonPath("$id", is(TestConstant.ID)))
+                    .andExpect(jsonPath("$name", is(TestConstant.NAME)))
+                    .andExpect(jsonPath("$birthDate", is(TestConstant.BIRTH_DATE)))
+                    .andExpect(jsonPath("$education", is(TestConstant.EDUCATION)))
+                    .andExpect(jsonPath("$deptName", is(TestConstant.DEPT_NAME)))
+                    .andExpect(jsonPath("$title", is(TestConstant.TITLE)));
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+    }
+
 
     private MediaType getMediaTypeJSON() {
         return new MediaType(MediaType.APPLICATION_JSON.getType(),

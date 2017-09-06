@@ -31,6 +31,7 @@ public class EmployeeControllerTest {
     private EmployeeOperation employeeOperation;
 
     private Employee employee;
+    private EmployeeDto employeeDto;
 
     @Before
     public void setup() {
@@ -42,13 +43,14 @@ public class EmployeeControllerTest {
                 .withDeptName(TestConstant.DEPT_NAME)
                 .withTitle(TestConstant.TITLE)
                 .buildEmployee();
+        employeeDto = new EmployeeDto(TestConstant.NAME,employee);
     }
 
     @Test
     public void whenGettingAllEmployeeThenReturnList() {
-        Mockito.when(employeeOperation.getAllEmployee()).thenReturn(Arrays.asList(employee));
-        ResponseEntity<List> resultEmployeeList = employeeController.getAllEmployee();
-        assertTrue(resultEmployeeList.getBody().stream().findFirst().get().equals(employee));
+        Mockito.when(employeeOperation.getAllEmployee()).thenReturn(employeeDto);
+        ResponseEntity<EmployeeDto> resultEmployeeDto = employeeController.getAllEmployee();
+        assertTrue(resultEmployeeDto.getBody().getData().equals(employee));
     }
 
     @Test

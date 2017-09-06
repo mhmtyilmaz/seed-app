@@ -4,6 +4,7 @@ import com.seed.app.dto.EmployeeDto;
 import com.seed.app.model.Employee;
 import com.seed.app.operation.EmployeeOperation;
 import com.seed.app.util.Constant;
+import com.seed.app.util.EmployeeException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -34,7 +35,7 @@ public class EmployeeController {
     })
     public
     @ResponseBody
-    ResponseEntity<List> getAllEmployee() {
+    ResponseEntity<EmployeeDto> getAllEmployee() {
         return new ResponseEntity<>(employeeOperation.getAllEmployee(), HttpStatus.OK);
     }
 
@@ -50,4 +51,30 @@ public class EmployeeController {
     ResponseEntity<EmployeeDto> addNewEmployee(@RequestBody Employee employee) {
         return new ResponseEntity<>(employeeOperation.addEmployee(employee), HttpStatus.OK);
     }
+
+
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = Constant.EMPLOYEE_UPDATE_OP)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = Constant.EMPLOYEE_UPDATE_SUCCESS, response = EmployeeDto.class),
+            @ApiResponse(code = 400, message = Constant.EMPLOYEE_UPDATE_FAIL)
+    })
+    public
+    @ResponseBody
+    ResponseEntity<EmployeeDto> updateEmployee(@RequestBody Employee employee) {
+        return new ResponseEntity<>(employeeOperation.updateEmployeeAllDetail(employee), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = Constant.EMPLOYEE_GET_OP)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = Constant.EMPLOYEE_GET_SUCCESS, response = Employee.class),
+            @ApiResponse(code = 400, message = Constant.EMPLOYEE_GET_FAIL)
+    })
+    public
+    @ResponseBody
+    ResponseEntity<EmployeeDto> getEmployee(@PathVariable("id") Integer id) throws EmployeeException {
+        return new ResponseEntity<>(employeeOperation.getEmployee(id), HttpStatus.OK);
+    }
+
 }

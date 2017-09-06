@@ -6,6 +6,7 @@ import java.util.Date;
  * Created by MEHMET on 3.9.2017.
  */
 public class TestConstant {
+    public static final Integer ID = 123;
     public static final String NAME = "TestName";
     public static final Date BIRTH_DATE = new Date();
     public static final String EDUCATION = "TestEducation";
