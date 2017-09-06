@@ -19,6 +19,7 @@ import java.util.List;
 /**
  * Created by MEHMET on 3.9.2017.
  */
+@CrossOrigin
 @RestController
 @RequestMapping("api/employee")
 public class EmployeeController {
