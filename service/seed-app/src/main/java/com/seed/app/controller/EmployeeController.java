@@ -19,7 +19,6 @@ import java.util.List;
 /**
  * Created by MEHMET on 3.9.2017.
  */
-@CrossOrigin
 @RestController
 @RequestMapping("api/employee")
 public class EmployeeController {
@@ -74,7 +73,12 @@ public class EmployeeController {
     public
     @ResponseBody
     ResponseEntity<EmployeeDto> getEmployee(@PathVariable("id") Integer id) throws EmployeeException {
-        return new ResponseEntity<>(employeeOperation.getEmployee(id), HttpStatus.OK);
+
+        try {
+            return new ResponseEntity<>(employeeOperation.getEmployee(id), HttpStatus.OK);
+        } catch (EmployeeException e) {
+            return new ResponseEntity<>(new EmployeeDto(e.getEMessage(),null),e.getHttpStatus());
+        }
     }
 
 }

@@ -73,4 +73,11 @@ public class EmployeeControllerTest {
         assertTrue(responseEntity.getBody().getData().equals(employee));
     }
 
+    @Test
+    public void givenEmployeeIdWhenGetEmployeeThenThrow() throws EmployeeException {
+        Mockito.when(employeeOperation.getEmployee(Mockito.anyInt())).thenThrow(new EmployeeException(HttpStatus.INTERNAL_SERVER_ERROR, null));
+        ResponseEntity<EmployeeDto> responseEntity = employeeController.getEmployee(employee.getId());
+        assertTrue(HttpStatus.INTERNAL_SERVER_ERROR.equals(responseEntity.getStatusCode()));
+    }
+
 }
