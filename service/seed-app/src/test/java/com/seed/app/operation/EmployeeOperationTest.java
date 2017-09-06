@@ -1,5 +1,6 @@
 package com.seed.app.operation;
 
+import com.seed.app.dto.EmployeeDto;
 import com.seed.app.model.Employee;
 import com.seed.app.repository.EmployeeRepository;
 import com.seed.app.util.EmployeeBuilder;
@@ -11,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,4 +47,12 @@ public class EmployeeOperationTest {
         List<Employee> employeeList = employeeOperation.getAllEmployee();
         assertTrue(employeeList.stream().findFirst().get().equals(employee));
     }
+
+    @Test
+    public void whenAddingNewEmployeeThenReturnDto() {
+        Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
+        EmployeeDto employeeDto = employeeOperation.addEmployee(employee);
+        assertTrue(employeeDto.getData().equals(employee));
+    }
+
 }
