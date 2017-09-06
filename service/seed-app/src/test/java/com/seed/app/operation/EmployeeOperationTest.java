@@ -54,7 +54,7 @@ public class EmployeeOperationTest {
     }
 
     @Test
-    public void whenAddingNewEmployeeThenReturnDto() {
+    public void givenEmployeeWhenAddingNewEmployeeThenReturnDto() {
         Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
         EmployeeDto employeeDto = employeeOperation.addEmployee(employee);
         assertTrue(employeeDto.getData().equals(employee));

@@ -4,6 +4,7 @@ import com.seed.app.dto.EmployeeDto;
 import com.seed.app.model.Employee;
 import com.seed.app.operation.EmployeeOperation;
 import com.seed.app.util.EmployeeBuilder;
+import com.seed.app.util.EmployeeException;
 import com.seed.app.util.TestConstant;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +15,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -47,17 +46,31 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void whenGettingAllEmployeeThenReturnList() {
+    public void whenGettingAllEmployeeThenReturnResponseEntity() {
         Mockito.when(employeeOperation.getAllEmployee()).thenReturn(employeeDto);
         ResponseEntity<EmployeeDto> resultEmployeeDto = employeeController.getAllEmployee();
         assertTrue(resultEmployeeDto.getBody().getData().equals(employee));
     }
 
     @Test
-    public void whenAddingNewEmployeeThenReturnHttpStatus() {
+    public void givenEmployeeWhenAddingNewEmployeeThenReturnResponseEntity() {
         Mockito.when(employeeOperation.addEmployee(employee)).thenReturn(Mockito.any(EmployeeDto.class));
         ResponseEntity<EmployeeDto> responseEntity = employeeController.addNewEmployee(employee);
         assertTrue(HttpStatus.OK.equals(responseEntity.getStatusCode()));
+    }
+
+    @Test
+    public void givenEmployeeWhenUpdateEmployeeThenReturnResponseEntity() {
+        Mockito.when(employeeOperation.updateEmployeeAllDetail(employee)).thenReturn(Mockito.any(EmployeeDto.class));
+        ResponseEntity<EmployeeDto> responseEntity = employeeController.updateEmployee(employee);
+        assertTrue(HttpStatus.OK.equals(responseEntity.getStatusCode()));
+    }
+
+    @Test
+    public void givenEmployeeIdWhenGetEmployeeThenReturnResponseEntity() throws EmployeeException{
+        Mockito.when(employeeOperation.getEmployee(Mockito.anyInt())).thenReturn(employeeDto);
+        ResponseEntity<EmployeeDto> responseEntity = employeeController.getEmployee(employee.getId());
+        assertTrue(responseEntity.getBody().getData().equals(employee));
     }
 
 }
