@@ -6,33 +6,39 @@
         </div>
     </div>
     <div class="left-part menu-area">
-        <table>
-            <tr>
-                <td>Name :  </td>
-                <td class="inputButton"><input type="text" ng-model = "name"/></td>
-            </tr>
-            <tr>
-                <td>Birth Date :  </td>
-                <td class="inputButton"><input type="date" ng-model = "birthDate"/></td>
-            </tr>
-            <tr>
-                <td>Education :  </td>
-                <td class="inputButton"><input type="text" ng-model = "education"/></td>
-            </tr>
-            <tr>
-                <td>Department Name :  </td>
-                <td class="inputButton"><input type="text" ng-model = "deptName"/></td>
-            </tr>
-            <tr>
-                <td>Title :  </td>
-                <td class="inputButton"><input type="text" ng-model = "title"/></td>
-            </tr>
-        </table>
+        <form name="myForm">
+            <table>
+                <tr>
+                    <td>Name :</td>
+                    <td class="inputButton"><input name="input" type="text" ng-model="name" required/></td>
+                </tr>
+                <tr>
+                    <td>Birth Date :</td>
+                    <td class="inputButton"><input name="input" type="date" ng-model="birthDate" value="" required/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Education :</td>
+                    <td class="inputButton"><input name="input" type="text" ng-model="education" required/></td>
+                </tr>
+                <tr>
+                    <td>Department Name :</td>
+                    <td class="inputButton"><input name="input" type="text" ng-model="deptName" required/></td>
+                </tr>
+                <tr>
+                    <td>Title :</td>
+                    <td class="inputButton"><input name="input" type="text" ng-model="title" required/></td>
+                </tr>
+            </table>
+        </form>
         <br/>
-        <div class ="btn btn-primary" ng-click="saveEmployee()">{{buttonName}} </div>
+        <button class="btn" ng-click="saveEmployee()"
+                ng-disabled="!myForm.input.$valid || birthDate == null"
+        >{{buttonName}}
+        </button>
     </div>
     <div class="right-part menu-area">
-        <div  id="grid1" ui-grid="gridOptions"  ui-grid-selection class="grid">
+        <div id="grid1" ui-grid="gridOptions" ui-grid-selection class="grid">
             <div class="no-rows" ng-if="isNoData == 0">
                 <div class="msg">
                     <span>No Data</span>
